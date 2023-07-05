@@ -208,10 +208,10 @@
 /* Totally 6GB DDR */
 #define CONFIG_SYS_SDRAM_BASE		0x40000000
 #define PHYS_SDRAM			0x40000000
-#define PHYS_SDRAM_SIZE			0xC0000000	/* 3 GB */
+#define PHYS_SDRAM_SIZE			0x40000000	/* 1 GB for Mamabear */
 #define PHYS_SDRAM_2			0x100000000
 #ifdef CONFIG_TARGET_IMX8MP_DDR4_EVK
-#define PHYS_SDRAM_2_SIZE		0x40000000	/* 1 GB */
+#define PHYS_SDRAM_2_SIZE		0x40000000	/* 1 GB for Mamabear*/
 #else
 #define PHYS_SDRAM_2_SIZE		0xC0000000	/* 3 GB */
 #endif
