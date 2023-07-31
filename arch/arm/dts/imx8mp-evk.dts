@@ -90,17 +90,17 @@
 //                 id-gpio = <&gpio1 10 GPIO_ACTIVE_HIGH>;
 // 	};
 	
-	reg_usb_c_vbus: regulator-usb-c-vbus {
-		compatible = "regulator-fixed";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_usb1_vbus>;
-		regulator-name = "usb_c_vbus";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		gpio = <&gpio1 14 GPIO_ACTIVE_HIGH>;
-		regulator-always-on;
-		enable-active-high;
-	};
+//	reg_usb_c_vbus: regulator-usb-c-vbus {
+//		compatible = "regulator-fixed";
+//		pinctrl-names = "default";
+//		pinctrl-0 = <&pinctrl_usb1_vbus>;
+//		regulator-name = "usb_c_vbus";
+//		regulator-min-microvolt = <5000000>;
+//		regulator-max-microvolt = <5000000>;
+//		gpio = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+//		regulator-always-on;
+//		enable-active-high;
+//	};
 
 	// rm67199_panel {
 	// 	compatible = "raydium,rm67199";
@@ -362,11 +362,11 @@
 
 	 ptn5110: tcpc@51 {
 	 	compatible = "nxp,ptn5110";
-	 //	pinctrl-names = "default";
-	 //	pinctrl-0 = <&pinctrl_typec>;
+	 	pinctrl-names = "default";
+	 	pinctrl-0 = <&pinctrl_typec>;
 	 	reg = <0x51>;
-	 //	interrupt-parent = <&gpio4>;
-	 //	interrupts = <19 8>;
+	 	interrupt-parent = <&gpio1>;
+	 	interrupts = <29 8>;
 
 	 	port {
 	 		typec_dr_sw: endpoint {
@@ -376,9 +376,9 @@
 	 	usb_con: connector {
 	 		compatible = "usb-c-connector";
 	 		label = "USB-C";
-	 		power-role = "source";
-	 		data-role = "host";
-	 		try-power-role = "source";
+	 		power-role = "dual";
+	 		data-role = "dual";
+	 		try-power-role = "sink";
 	 		source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
 	 	//	sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
 	 	//		     PDO_VAR(5000, 20000, 3000)>;
@@ -472,7 +472,8 @@
 &usb3_phy1 {
 
 //	vbus-supply = <&gpio1 14>;
-	vbus-supply = <&reg_usb_c_vbus>;
+//	vbus-supply = <&reg_usb_c_vbus>;
+	vbus-power-supply = <&ptn5110>;
 	fsl,phy-tx-vref-tune = <0xe>;
 	fsl,phy-tx-preemp-amp-tune = <3>;
 	fsl,phy-tx-vboost-level = <5>;
@@ -489,12 +490,12 @@
 };
 
 &usb_dwc3_1 {
-	dr_mode = "host";
+	dr_mode = "otg";
 	hnp-disable;
 	srp-disable;
 	adp-disable;
-//	usb-role-switch;
-//	role-switch-default-mode = "none";
+	usb-role-switch;
+	role-switch-default-mode = "none";
 	status = "okay";
 
 	port {
@@ -534,71 +535,6 @@
 };
 
 &iomuxc {
-	// pinctrl_eqos: eqosgrp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_ENET_MDC__ENET_QOS_MDC	0x3
-	// 		MX8MP_IOMUXC_ENET_MDIO__ENET_QOS_MDIO	0x3
-	// 		MX8MP_IOMUXC_ENET_RD0__ENET_QOS_RGMII_RD0	0x91
-	// 		MX8MP_IOMUXC_ENET_RD1__ENET_QOS_RGMII_RD1	0x91
-	// 		MX8MP_IOMUXC_ENET_RD2__ENET_QOS_RGMII_RD2	0x91
-	// 		MX8MP_IOMUXC_ENET_RD3__ENET_QOS_RGMII_RD3	0x91
-	// 		MX8MP_IOMUXC_ENET_RXC__CCM_ENET_QOS_CLOCK_GENERATE_RX_CLK	0x91
-	// 		MX8MP_IOMUXC_ENET_RX_CTL__ENET_QOS_RGMII_RX_CTL	0x91
-	// 		MX8MP_IOMUXC_ENET_TD0__ENET_QOS_RGMII_TD0		0x1f
-	// 		MX8MP_IOMUXC_ENET_TD1__ENET_QOS_RGMII_TD1		0x1f
-	// 		MX8MP_IOMUXC_ENET_TD2__ENET_QOS_RGMII_TD2		0x1f
-	// 		MX8MP_IOMUXC_ENET_TD3__ENET_QOS_RGMII_TD3		0x1f
-	// 		MX8MP_IOMUXC_ENET_TX_CTL__ENET_QOS_RGMII_TX_CTL	0x1f
-	// 		MX8MP_IOMUXC_ENET_TXC__CCM_ENET_QOS_CLOCK_GENERATE_TX_CLK	0x1f
-	// 		MX8MP_IOMUXC_SAI2_RXC__GPIO4_IO22		0x19
-	// 	>;
-	// };
-
-	// pinctrl_fec: fecgrp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_SAI1_RXD2__ENET1_MDC		0x3
-	// 		MX8MP_IOMUXC_SAI1_RXD3__ENET1_MDIO		0x3
-	// 		MX8MP_IOMUXC_SAI1_RXD4__ENET1_RGMII_RD0		0x91
-	// 		MX8MP_IOMUXC_SAI1_RXD5__ENET1_RGMII_RD1		0x91
-	// 		MX8MP_IOMUXC_SAI1_RXD6__ENET1_RGMII_RD2		0x91
-	// 		MX8MP_IOMUXC_SAI1_RXD7__ENET1_RGMII_RD3		0x91
-	// 		MX8MP_IOMUXC_SAI1_TXC__ENET1_RGMII_RXC		0x91
-	// 		MX8MP_IOMUXC_SAI1_TXFS__ENET1_RGMII_RX_CTL	0x91
-	// 		MX8MP_IOMUXC_SAI1_TXD0__ENET1_RGMII_TD0		0x1f
-	// 		MX8MP_IOMUXC_SAI1_TXD1__ENET1_RGMII_TD1		0x1f
-	// 		MX8MP_IOMUXC_SAI1_TXD2__ENET1_RGMII_TD2		0x1f
-	// 		MX8MP_IOMUXC_SAI1_TXD3__ENET1_RGMII_TD3		0x1f
-	// 		MX8MP_IOMUXC_SAI1_TXD4__ENET1_RGMII_TX_CTL	0x1f
-	// 		MX8MP_IOMUXC_SAI1_TXD5__ENET1_RGMII_TXC		0x1f
-	// 		MX8MP_IOMUXC_SAI1_RXD0__GPIO4_IO02		0x19
-	// 	>;
-	// };
-
-	// pinctrl_flexcan1: flexcan1grp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_SPDIF_RX__CAN1_RX          0x154
-	// 		MX8MP_IOMUXC_SPDIF_TX__CAN1_TX          0x154
-	// 	>;
-	// };
-
-	// pinctrl_flexcan2: flexcan2grp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_SAI5_MCLK__CAN2_RX         0x154
-	// 		MX8MP_IOMUXC_SAI5_RXD3__CAN2_TX         0x154
-	// 	>;
-	// };
-
-	// pinctrl_flexcan1_reg: flexcan1reggrp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_SPDIF_EXT_CLK__GPIO5_IO05  0x154   /* CAN1_STBY */
-	// 	>;
-	// };
-
-	// pinctrl_flexcan2_reg: flexcan2reggrp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_SAI2_MCLK__GPIO4_IO27      0x154   /* CAN2_STBY */
-	// 	>;
-	// };
 
 	pinctrl_flexspi0: flexspi0grp {
 		fsl,pins = <
@@ -610,12 +546,6 @@
 			MX8MP_IOMUXC_NAND_DATA03__FLEXSPI_A_DATA03	0x82
 		>;
 	};
-
-	// pinctrl_gpio_led: gpioledgrp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_NAND_READY_B__GPIO3_IO16	0x19
-	// 	>;
-	// };
 
 	pinctrl_i2c1: i2c1grp {
 		fsl,pins = <
@@ -671,11 +601,11 @@
 		>;
 	};
 
-	// pinctrl_typec: typec1grp {
-	// 	fsl,pins = <
-	// 		MX8MP_IOMUXC_SAI1_TXD7__GPIO4_IO19	0x1c4
-	// 	>;
-	// };
+	 pinctrl_typec: typec1grp {
+	 	fsl,pins = <
+	 		MX8MP_IOMUXC_ENET_RD3__GPIO1_IO29	0x1c4
+	 	>;
+	};
 
 	pinctrl_typec_mux: typec1muxgrp {
 		fsl,pins = <
