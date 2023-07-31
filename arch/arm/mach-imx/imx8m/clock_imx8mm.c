@@ -51,7 +51,8 @@ static struct imx_int_pll_rate_table imx8mm_fracpll_tbl[] = {
 	PLL_1443X_RATE(1000000000U, 250, 3, 1, 0),
 	PLL_1443X_RATE(800000000U, 200, 3, 1, 0),
 	PLL_1443X_RATE(750000000U, 250, 2, 2, 0),
-	PLL_1443X_RATE(650000000U, 325, 3, 2, 0),
+	PLL_1443X_RATE(666000000U, 333, 3, 2, 0),//add support for 1333MHz DDR4
+	PLL_1443X_RATE(650000000U, 325, 12, 0, 0),
 	PLL_1443X_RATE(600000000U, 300, 3, 2, 0),
 	PLL_1443X_RATE(594000000U, 99, 1, 2, 0),
 	PLL_1443X_RATE(400000000U, 400, 3, 3, 0),
@@ -228,6 +229,16 @@ int intpll_configure(enum pll_clocks pll, ulong freq)
 		/* 24 * 0x12c / 3 / 2 ^ 2 */
 		pll_div_ctl_val = INTPLL_MAIN_DIV_VAL(0x12c) |
 			INTPLL_PRE_DIV_VAL(3) | INTPLL_POST_DIV_VAL(2);
+		break;
+	case MHZ(666):
+		/* 24 * 0x14d / 3 / 2 ^ 2 */
+		pll_div_ctl_val = INTPLL_MAIN_DIV_VAL(0x14D) |
+			INTPLL_PRE_DIV_VAL(3) | INTPLL_POST_DIV_VAL(2);
+		break;
+	case MHZ(650):
+		/* 24 * 0x145 / 3 / 2 ^ 2 */
+		pll_div_ctl_val = INTPLL_MAIN_DIV_VAL(0x145) |
+			INTPLL_PRE_DIV_VAL(0xc) | INTPLL_POST_DIV_VAL(0);
 		break;
 	case MHZ(750):
 		/* 24 * 0xfa / 2 / 2 ^ 2 */
