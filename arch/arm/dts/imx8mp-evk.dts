@@ -9,7 +9,7 @@
 #include "imx8mp.dtsi"
 
 / {
-	model = "NXP i.MX8MPlus LPDDR4 EVK board";
+	model = "Future i.MX8MPlus Mamebear board";
 	compatible = "fsl,imx8mp-evk", "fsl,imx8mp";
 
 	chosen {
@@ -17,44 +17,12 @@
 		stdout-path = &uart2;
 	};
 
-	// gpio-leds {
-	// 	compatible = "gpio-leds";
-	// 	pinctrl-names = "default";
-	// 	pinctrl-0 = <&pinctrl_gpio_led>;
-
-	// 	led-0 {
-	// 		gpios = <&gpio3 16 GPIO_ACTIVE_HIGH>;
-	// 		default-state = "on";
-	// 	};
-	// };
-
 	memory@40000000 {
 		device_type = "memory";
 		reg = <0x0 0x40000000 0 0x80000000>,
 		      <0x1 0x00000000 0 0x80000000>;
 	};
 
-	// reg_can1_stby: regulator-can1-stby {
-	// 	compatible = "regulator-fixed";
-	// 	regulator-name = "can1-stby";
-	// 	pinctrl-names = "default";
-	// 	pinctrl-0 = <&pinctrl_flexcan1_reg>;
-	// 	regulator-min-microvolt = <3300000>;
-	// 	regulator-max-microvolt = <3300000>;
-	// 	gpio = <&gpio5 5 GPIO_ACTIVE_HIGH>;
-	// 	enable-active-high;
-	// };
-
-	// reg_can2_stby: regulator-can2-stby {
-	// 	compatible = "regulator-fixed";
-	// 	regulator-name = "can2-stby";
-	// 	pinctrl-names = "default";
-	// 	pinctrl-0 = <&pinctrl_flexcan2_reg>;
-	// 	regulator-min-microvolt = <3300000>;
-	// 	regulator-max-microvolt = <3300000>;
-	// 	gpio = <&gpio4 27 GPIO_ACTIVE_HIGH>;
-	// 	enable-active-high;
-	// };
 
 	reg_usdhc2_vmmc: regulator-usdhc2 {
 		compatible = "regulator-fixed";
@@ -73,55 +41,6 @@
 		compatible = "samsung,sec-mipi-dsi";
 		status = "okay";
 	};
-	
-//	reg_usb_otg_vbus: regulator-usb-otg-vbus {
-//		compatible = "regulator-fixed";
-//		pinctrl-names = "default";
-//		pinctrl-0 = <&pinctrl_usb0_vbus>;
-//		regulator-name = "usb_otg_vbus";
-//		regulator-min-microvolt = <5000000>;
-//		regulator-max-microvolt = <5000000>;
-//		gpio = <&gpio1 12 GPIO_ACTIVE_HIGH>;
-//		enable-active-high;
-//	};
-	
-//	 extcon_usb: extcon_iddig {
-//                 compatible = "linux,extcon-usb-gpio";
-//                 id-gpio = <&gpio1 10 GPIO_ACTIVE_HIGH>;
-// 	};
-	
-//	reg_usb_c_vbus: regulator-usb-c-vbus {
-//		compatible = "regulator-fixed";
-//		pinctrl-names = "default";
-//		pinctrl-0 = <&pinctrl_usb1_vbus>;
-//		regulator-name = "usb_c_vbus";
-//		regulator-min-microvolt = <5000000>;
-//		regulator-max-microvolt = <5000000>;
-//		gpio = <&gpio1 14 GPIO_ACTIVE_HIGH>;
-//		regulator-always-on;
-//		enable-active-high;
-//	};
-
-	// rm67199_panel {
-	// 	compatible = "raydium,rm67199";
-	// 	pinctrl-names = "default";
-	// 	pinctrl-0 = <&pinctrl_mipi_dsi_en>;
-	// 	reset-gpio = <&gpio1 8 GPIO_ACTIVE_LOW>;
-	// 	dsi-lanes = <4>;
-	// 	video-mode = <2>;	/* 0: burst mode
-	// 				 * 1: non-burst mode with sync event
-	// 				 * 2: non-burst mode with sync pulse
-	// 				 */
-	// 	panel-width-mm = <68>;
-	// 	panel-height-mm = <121>;
-	// 	status = "okay";
-
-	// 	port {
-	// 		rm67191_from_dsim: endpoint {
-	// 			remote-endpoint = <&dsim_to_rm67191>;
-	// 		};
-	// 	};
-	// };
 
 	 cbtl04gp {
 	 	compatible = "nxp,cbtl04gp";
@@ -137,60 +56,6 @@
 	 	};
 	};
 };
-
-// &flexcan1 {
-// 	pinctrl-names = "default";
-// 	pinctrl-0 = <&pinctrl_flexcan1>;
-// 	xceiver-supply = <&reg_can1_stby>;
-// 	status = "okay";
-// };
-
-// &eqos {
-// 	pinctrl-names = "default";
-// 	pinctrl-0 = <&pinctrl_eqos>;
-// 	phy-mode = "rgmii-id";
-// 	phy-handle = <&ethphy0>;
-// 	status = "okay";
-
-// 	mdio {
-// 		compatible = "snps,dwmac-mdio";
-// 		#address-cells = <1>;
-// 		#size-cells = <0>;
-
-// 		ethphy0: ethernet-phy@1 {
-// 			compatible = "ethernet-phy-ieee802.3-c22";
-// 			reg = <1>;
-// 			eee-broken-1000t;
-// 		};
-// 	};
-// };
-
-// &flexcan2 {
-// 	pinctrl-names = "default";
-// 	pinctrl-0 = <&pinctrl_flexcan2>;
-// 	xceiver-supply = <&reg_can2_stby>;
-// 	status = "disabled";/* can2 pin conflict with pdm */
-// };
-
-// &fec {
-// 	pinctrl-names = "default";
-// 	pinctrl-0 = <&pinctrl_fec>;
-// 	phy-mode = "rgmii-id";
-// 	phy-handle = <&ethphy1>;
-// 	fsl,magic-packet;
-// 	status = "okay";
-
-// 	mdio {
-// 		#address-cells = <1>;
-// 		#size-cells = <0>;
-
-// 		ethphy1: ethernet-phy@1 {
-// 			compatible = "ethernet-phy-ieee802.3-c22";
-// 			reg = <1>;
-// 			eee-broken-1000t;
-// 		};
-// 	};
-// };
 
  &flexspi {
  	pinctrl-names = "default";
@@ -334,20 +199,6 @@
 	sda-gpios = <&gpio5 17 GPIO_ACTIVE_HIGH>;
 	status = "okay";
 
-	// adv_bridge: adv7535@3d {
-	// 	compatible = "adi,adv7535";
-	// 	reg = <0x3d>;
-	// 	adi,addr-cec = <0x3c>;
-	// 	adi,dsi-lanes = <4>;
-	// 	status = "okay";
-
-	// 	port {
-	// 		adv7535_from_dsim: endpoint {
-	// 			remote-endpoint = <&dsim_to_adv7535>;
-	// 		};
-	// 	};
-	// };
-
 
 };
 
@@ -380,9 +231,6 @@
 	 		data-role = "dual";
 	 		try-power-role = "sink";
 	 		source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)>;
-	 	//	sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_USB_COMM)
-	 	//		     PDO_VAR(5000, 20000, 3000)>;
-	 	//	op-sink-microwatt = <15000000>;
 	 		self-powered;
 
 	 		ports {
@@ -397,13 +245,6 @@
 	 		};
 	 	};
 	 };
-
-	// pca6416: gpio@20 {
-	// 	compatible = "ti,tca6416";
-	// 	reg = <0x20>;
-	// 	gpio-controller;
-	// 	#gpio-cells = <2>;
-	// };
 };
 
 &lcdif1 {
@@ -412,18 +253,6 @@
 
 &mipi_dsi {
 	status = "okay";
-
-	// port@1 {
-	// 	dsim_to_adv7535: endpoint {
-	// 		remote-endpoint = <&adv7535_from_dsim>;
-	// 	};
-	// };
-
-	// port@2 {
-	// 	dsim_to_rm67191: endpoint {
-	// 		remote-endpoint = <&rm67191_from_dsim>;
-	// 	};
-	// };
 };
 
 &snvs_pwrkey {
@@ -438,41 +267,18 @@
 };
 
 &usb3_phy0 {
-//	vbus-supply = <&gpio1 12>;
-//	vbus-supply = <&reg_usb_otg_vbus>;
-//	fsl,phy-tx-vref-tune = <0xe>;
-//	fsl,phy-tx-preemp-amp-tune = <3>;
-//	fsl,phy-tx-vboost-level = <5>;
-//	fsl,phy-comp-dis-tune = <7>;
-//	fsl,pcs-tx-deemph-3p5db = <0x21>;
-//	fsl,phy-pcs-tx-swing-full = <0x7f>;
-		
-	//fsl,phy-tx-preemp-amp-tune = <3>;
-	//fsl,phy-tx-vref-tune = <0xb>;
 	status = "okay";
 };
-
-//&usb3_0 {
-//	status = "okay";
-//};
 
 &usb_dwc3_0 {
 	adp-disable;
 	dr_mode = "peripheral";
 	hnp-disable;
 	srp-disable;
-//	usb-role-switch;
 	status = "okay";
-	
-//	dr_mode = "peripheral";
-	//	 extcon = <&extcon_usb>;
-//	status = "okay";
 };
 
 &usb3_phy1 {
-
-//	vbus-supply = <&gpio1 14>;
-//	vbus-supply = <&reg_usb_c_vbus>;
 	vbus-power-supply = <&ptn5110>;
 	fsl,phy-tx-vref-tune = <0xe>;
 	fsl,phy-tx-preemp-amp-tune = <3>;
@@ -481,8 +287,6 @@
 	fsl,pcs-tx-deemph-3p5db = <0x21>;
 	fsl,phy-pcs-tx-swing-full = <0x7f>;
 	status = "okay";
-	
-
 };
 
 &usb3_1 {
